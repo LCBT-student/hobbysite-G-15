@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'wiki',
     'merchstore',
     'commissions',
+    'forum',
 ]
 
 MIDDLEWARE = [

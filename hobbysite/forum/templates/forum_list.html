@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %} Forum List {% endblock %}
+{% block content %}
+    <h1>Forum Thread List</h1>
+    <ul>
+        {% for post in object_list %}
+        <li>
+            <a href="{{ post.get_absolute_url }}">
+                <b>{{ post.title }}</b>
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
