@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}MerchStore{% endblock %}
+{% block content %}
+    <h1>Product Details</h1>
+    <h2>Product: {{ product_types.Name }}</br>
+    <h4>Product: {{ product_types.description }}</h4>
+        Product Type: {{ product_types.product_type }}
+        
+        {% for product in product_types.products.all %}
+            <li>{{ product.Name }} - {{ product.price }}</li>
+            <li>{{ product.Description }}      
+        {% endfor %}
+{% endblock %}
