@@ -21,5 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('wiki/', include('wiki.urls', namespace='wiki')),
     path('merchstore/', include('merchstore.urls')),
+    path('commissions/', include('commissions.urls', namespace='commissions')),
 ]
 
