@@ -7,7 +7,7 @@
     <h2>Commission List:</h2>
     <ul>
       {% for commission in commissions.all %}
-        <li><a href="{{commission.get_absolute_url}}">{{commission.Title}}</a></li>
+        <li><a href="{{commission.get_absolute_url}}">{{commission.title}}</a></li>
       {% endfor %}
     </ul>
 {% endblock %}

@@ -4,17 +4,17 @@
 {% block title %}Commissions{% endblock %}
 {% block content %}
   <h1>Commission Details</h1>  
-  <h2>Commission: {{ commissions.Title }}</h2>
-  <h4>Description: {{ commissions.Description }}<br>
-    People Required: {{ commissions.People_Required }}<br>
-    Date Created: {{ commissions.Created_On }}<br>
-    Date Updated:{{ commissions.Updated_On }}</h4>
+  <h2>Commission: {{ commissions.title }}</h2>
+  <h4>Description: {{ commissions.description }}<br>
+    People Required: {{ commissions.people_required }}<br>
+    Date Created: {{ commissions.created_on }}<br>
+    Date Updated:{{ commissions.updated_on }}</h4>
   <h3>Comments:</h3>
     <ul>
       {% for comment in commissions.comments.all %}
-        <li>{{ comment.Entry }}<br>
-          [Created On: {{ comment.Created_On }}]<br>
-          [Updated On: {{ comment.Updated_On }}]
+        <li>{{ comment.entry }}<br>
+          [Created On: {{ comment.created_on }}]<br>
+          [Updated On: {{ comment.updated_on }}]
         </li>
       {% endfor %}  
     </ul>
