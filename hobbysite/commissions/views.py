@@ -20,8 +20,8 @@ class CommissionDetailView(DetailView):
 
 class CommissionDetail(View):
     def get(self, request, id):
-        commission = Commission.objects.get(pk=id).Title
-        comment = Comment.objects.filter(commission__Title=commission)
+        commission = Commission.objects.get(pk=id).title
+        comment = Comment.objects.filter(commission__title=commission)
         context = {
             'commission': commission,
             'comment': comment
