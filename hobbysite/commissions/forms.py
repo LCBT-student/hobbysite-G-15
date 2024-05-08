@@ -18,7 +18,7 @@ class LockedJobForm(forms.ModelForm):
 class JobForm(forms.ModelForm):
     class Meta:
         model = Job
-        fields = '__all__'
+        fields = ['commission','role','manpower_required','status']
 
 
 class JobApplicationForm(forms.ModelForm):

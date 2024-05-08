@@ -49,6 +49,7 @@ class Job(models.Model):
     )
     role = models.CharField(max_length=255)
     manpower_required = models.PositiveIntegerField()
+    open_manpower = models.PositiveIntegerField(default=10)
     job_choices = [
         ('Open','Open'),
         ('Full','Full'),

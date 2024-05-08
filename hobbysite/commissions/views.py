@@ -25,13 +25,18 @@ class CommissionDetailView(DetailView, FormMixin):
     context_object_name = 'commissions'
     form_class = JobApplicationForm
 
+    """ def check(self):
+        return (JobApplication.objects.filter(Job=self).filter(status="Accepted").count() 
+                == job.manpower_required) """
+    
+
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
         context['apply_form'] = JobApplicationForm()
         context['commission'] = Commission
         context['job'] = Job
         context['application'] = JobApplication
-        context['jobID'] = int
+        context['open_manpower'] = Job.open_manpower
         return context
     
     def post(self, request, *args, **kwargs):
@@ -40,7 +45,7 @@ class CommissionDetailView(DetailView, FormMixin):
         profile = self.request.user
         if request.method == 'POST':
             apply_form = JobApplicationForm(request.POST)
-            
+
             if apply_form.is_valid():
                 application = apply_form.save(commit=False)
                 job = request.POST.get('job')
@@ -56,9 +61,9 @@ class CommissionDetailView(DetailView, FormMixin):
             context['commission'] = Commission
             context['job'] = Job
             context['application'] = JobApplication
-            context['jobID'] = int
+            context['open_manpower'] = Job.open_manpower
             return context
-        return self.render_to_response(context)         
+        return self.render_to_response(context)
 
 
 class CommissionCreateView(LoginRequiredMixin, CreateView):

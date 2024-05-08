@@ -34,7 +34,9 @@
         {% csrf_token %}
           <select id="job" name="job">
             {% for job in commissions.jobs.all %}
-              <option value="{{ job.pk }}">{{ job.role }}</option>
+              {% if job %}
+                <option value="{{ job.pk }}">{{ job.role }}</option>
+              {% endif %}
             {% endfor %}
           </select>
         <input type="submit" value="Apply to Job">
@@ -46,7 +48,7 @@
       {% for job in commissions.jobs.all %}
         <b>Role: {{ job.role }}<br>
         People Required: {{ job.manpower_required }}<br>
-        Open Slots: {{ job.manpower_required }} <br>
+        Open Slots: {{ job.open_manpower.subtract }} <br>
         Status: {{ job.status }}<br>
         </b><br><br>
       {% endfor %}  
