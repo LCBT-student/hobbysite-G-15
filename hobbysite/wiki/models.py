@@ -40,14 +40,22 @@ class Article(models.Model):
     )
     entry = models.TextField()
     created_on = models.DateTimeField(default=timezone.now)
-    updated_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(default=timezone.now)
     header_image = models.ImageField(upload_to='images/', null=True)
+
+    @property
+    def article_comments(self):
+        return Comment.objects.filter(article=self)
 
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):
         return reverse('wiki:article_detail_view', kwargs={'pk': self.pk})
+    
+    def save(self, *args, **kwargs):
+        self.updated_on = timezone.now()
+        super().save(*args, **kwargs)
 
     class Meta:
         ordering = ['-created_on']
@@ -67,7 +75,11 @@ class Comment(models.Model):
     )
     entry = models.TextField()
     created_on = models.DateField(default=timezone.now)
-    updated_on = models.DateField(auto_now=True)
+    updated_on = models.DateField(default=timezone.now)
+
+    def save(self, *args, **kwargs):
+        self.updated_on = timezone.now()
+        super().save(*args, **kwargs)
 
     class Meta:
         ordering = ['created_on']

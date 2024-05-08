@@ -2,16 +2,30 @@
 {% load static %}
 
 {% block content %}
-    <h1>Wiki Articles</h1>
-    <ul>
-        {% for category in object_list %}
-            <h4>{{ category }}</h4>
-            <p>{{ category.description }}</p>
-            <ul>
-                {% for article in category.articles %}
-                <li><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></li>
-                {% endfor %}
-            </ul>
+<h1>Wiki Articles</h1>
+<ul>
+    {% if user.is_authenticated %}
+        <h3>Your Articles</h3>
+        {% for article in users_articles %}
+            <li><a href='{{ article.get_absolute_url }}'>{{ article.title }}</a></li>
         {% endfor %}
-    </ul>
+        <h3>Other Articles</h3>
+        {% for category in categories %}
+            <ul>{{ category.name }}</ul>
+            {% for article in category.articles %}
+                {% if article not in users_articles %}
+                <li><a href='{{ article.get_absolute_url }}'>{{ article.title }}</a></li>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    {% else %}
+        {% for category in categories %}
+        <h3><ul>{{ category }}</ul></h3>
+            {% for article in category.articles %}
+                <li><a href='{{ article.get_absolute_url }}'>{{ article.title }}</a></li>
+            {% endfor %}
+        {% endfor %}
+    {% endif %}
+    <p><a href='/wiki/article/add'>Create an article!</a></p>
+</ul>
 {% endblock %}
