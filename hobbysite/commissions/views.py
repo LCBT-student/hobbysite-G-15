@@ -141,6 +141,11 @@ class CommissionUpdateView(LoginRequiredMixin, UpdateView):
 
             if com_form.is_valid():
                 new_com_form = com_form.save(commit=False)
+                for x in Job.objects.filter(commission=commission_detail).all():
+                    if x.status != "Full":
+                        new_com_form.save()
+                        return redirect('commissions:commission_detail', pk=commission_detail.pk)
+                new_com_form.status = "Full"
                 new_com_form.save()
                 return redirect('commissions:commission_detail', pk=commission_detail.pk)
             else:
