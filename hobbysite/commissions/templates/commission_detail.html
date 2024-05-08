@@ -28,6 +28,19 @@
     Date Created: {{ commissions.created_on }}<br>
     Date Updated:{{ commissions.updated_on }}</h4>
 
+  {% if request.user.is_authenticated %}
+    <h3>Apply Here:
+      <form action="{% url 'commissions:commission_detail' pk=commissions.pk %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+          <select id="job" name="job">
+            {% for job in commissions.jobs.all %}
+              <option value="{{ job.pk }}">{{ job.role }}</option>
+            {% endfor %}
+          </select>
+        <input type="submit" value="Apply to Job">
+      </form></h3>
+  {% endif %}
+
   <h3>Jobs:</h3>
     <ul>
       {% for job in commissions.jobs.all %}
@@ -35,17 +48,7 @@
         People Required: {{ job.manpower_required }}<br>
         Open Slots: {{ job.manpower_required }} <br>
         Status: {{ job.status }}<br>
-        </b>
-        {% if request.user.is_authenticated %}
-        <h3>Apply Here:
-          <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ apply_form }}
-            <a href="{% url 'commissions:commission_add' %}">
-              <button type="submit">Apply to Job</button></a>
-          </form></h3>
-        {% endif %}
-        <br><br>
+        </b><br><br>
       {% endfor %}  
     </ul>
   <a href={% url 'commissions:commission_list' %}><button type="submit">Go Back</button></a>

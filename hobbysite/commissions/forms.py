@@ -24,5 +24,5 @@ class JobForm(forms.ModelForm):
 class JobApplicationForm(forms.ModelForm):
     class Meta:
         model = JobApplication
-        fields = ['status']
-        exclude = ['status']
+        fields = ['applied_on']
+        exclude = ['applied_on']

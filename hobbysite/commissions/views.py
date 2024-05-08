@@ -31,13 +31,24 @@ class CommissionDetailView(DetailView, FormMixin):
         context['commission'] = Commission
         context['job'] = Job
         context['application'] = JobApplication
+        context['jobID'] = int
         return context
     
     def post(self, request, *args, **kwargs):
         context = {}
         apply_form = JobApplicationForm()
+        profile = self.request.user
         if request.method == 'POST':
             apply_form = JobApplicationForm(request.POST)
+            
+            if apply_form.is_valid():
+                application = apply_form.save(commit=False)
+                job = request.POST.get('job')
+                application.job = Job.objects.get(pk=job)
+                application.applicant = profile
+                application.status = "Pending"
+                application.save()
+                return redirect('commissions:commission_list')
         else:
             self.object_list = self.get_queryset(**kwargs)
             context = self.get_context_data(**kwargs)
@@ -45,26 +56,10 @@ class CommissionDetailView(DetailView, FormMixin):
             context['commission'] = Commission
             context['job'] = Job
             context['application'] = JobApplication
+            context['jobID'] = int
             return context
-        return self.render_to_response(context)
-    # above is incomplete
-         
+        return self.render_to_response(context)         
 
-
-""" class CommissionDetail(View):
-    def get(self, request, id):
-        commission = Commission.objects.get(pk=id).title
-        job = Job.objects.filter(commission__title=commission)        
-        apply_form = JobApplicationForm(request.POST)
-        
-
-        context = {
-            'commission': commission,
-            'job': job,
-            'apply_form': apply_form
-        }
-        return render(request, 'commission_detail.html', context) """
-    
 
 class CommissionCreateView(LoginRequiredMixin, CreateView):
     model = Commission
