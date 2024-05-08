@@ -25,19 +25,45 @@ class CommissionDetailView(DetailView, FormMixin):
     context_object_name = 'commissions'
     form_class = JobApplicationForm
 
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['apply_form'] = JobApplicationForm()
+        context['commission'] = Commission
+        context['job'] = Job
+        context['application'] = JobApplication
+        return context
+    
+    def post(self, request, *args, **kwargs):
+        context = {}
+        apply_form = JobApplicationForm()
+        if request.method == 'POST':
+            apply_form = JobApplicationForm(request.POST)
+        else:
+            self.object_list = self.get_queryset(**kwargs)
+            context = self.get_context_data(**kwargs)
+            context['apply_form'] = apply_form
+            context['commission'] = Commission
+            context['job'] = Job
+            context['application'] = JobApplication
+            return context
+        return self.render_to_response(context)
+    # above is incomplete
+         
 
-class CommissionDetail(View):
+
+""" class CommissionDetail(View):
     def get(self, request, id):
         commission = Commission.objects.get(pk=id).title
         job = Job.objects.filter(commission__title=commission)        
-        apply_form = JobApplicationForm
+        apply_form = JobApplicationForm(request.POST)
+        
 
         context = {
             'commission': commission,
             'job': job,
             'apply_form': apply_form
         }
-        return render(request, 'commission_detail.html', context)
+        return render(request, 'commission_detail.html', context) """
     
 
 class CommissionCreateView(LoginRequiredMixin, CreateView):

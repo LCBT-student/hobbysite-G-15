@@ -10,12 +10,6 @@
         {{ com_form }}
         <button type="submit">Submit</button>
     </form>
-    <h1> Editing Selected Job: </h1>
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ job_form }}
-        <button type="submit">Submit</button>
-    </form>
     <p><a href={% url 'commissions:commission_list' %}>
         <button type="submit">Cancel</button></a></p>
 {% endblock %}

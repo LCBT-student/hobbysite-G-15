@@ -41,7 +41,7 @@
           <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             {{ apply_form }}
-            <a href="{% url 'commissions:commission_detail' pk=job.pk %}">
+            <a href="{% url 'commissions:commission_add' %}">
               <button type="submit">Apply to Job</button></a>
           </form></h3>
         {% endif %}

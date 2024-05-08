@@ -36,7 +36,7 @@ class Commission(models.Model):
     
 
     class Meta:
-        ordering = ['-created_on']
+        ordering = ['created_on']
         verbose_name = 'commission'
         verbose_name_plural = 'commissions'
 
@@ -63,8 +63,7 @@ class Job(models.Model):
     
     
     class Meta:
-        ordering = ['role']
-        #unique_together = ['', '']
+        ordering = ['-status','-manpower_required','role']
         verbose_name = 'job'
         verbose_name_plural = 'jobs'
 
@@ -73,7 +72,7 @@ class JobApplication(models.Model):
     job = models.ForeignKey(
         Job,
         on_delete=models.CASCADE,
-        related_name='jobs'
+        related_name='applications'
     )
     applicant = models.ForeignKey(
         User,
@@ -89,9 +88,9 @@ class JobApplication(models.Model):
     status = models.CharField(max_length=255, choices=job_apply_choices, default='Pending')
     applied_on = models.DateTimeField(auto_now_add=True)
 
+
     class Meta:
-        #ordering = ['']
-        #unique_together = ['', '']
-        verbose_name = 'applicant'
-        verbose_name_plural = 'applicants'
+        ordering = ['-applied_on']
+        verbose_name = 'application'
+        verbose_name_plural = 'applications'
 
