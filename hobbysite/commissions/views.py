@@ -24,12 +24,7 @@ class CommissionDetailView(DetailView, FormMixin):
     template_name = 'commission_detail.html'
     context_object_name = 'commissions'
     form_class = JobApplicationForm
-
-    """ def check(self):
-        return (JobApplication.objects.filter(Job=self).filter(status="Accepted").count() 
-                == job.manpower_required) """
     
-
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
         context['apply_form'] = JobApplicationForm()
