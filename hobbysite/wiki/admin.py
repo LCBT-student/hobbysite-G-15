@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Article, ArticleCategory
+from .models import Article, ArticleCategory, Comment
 
 
 class ArticleAdmin(admin.ModelAdmin):
@@ -27,6 +27,10 @@ class ArticleCategoryAdmin(admin.ModelAdmin):
 
     search_fields = ('name',)
 
+class CommentAdmin(admin.ModelAdmin):
+    model = Comment
+
 
 admin.site.register(Article, ArticleAdmin)
 admin.site.register(ArticleCategory, ArticleCategoryAdmin)
+admin.site.register(Comment, CommentAdmin)

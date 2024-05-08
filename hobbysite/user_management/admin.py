@@ -4,14 +4,15 @@ from django.contrib.auth.models import User
 
 from .models import Profile
 
+# Register your models here.
 
-class ProfileInline(admin.StackedInline):
+class ProfileInLine(admin.StackedInline):
     model = Profile
     can_delete = False
 
 
 class UserAdmin(BaseUserAdmin):
-    inlines = [ProfileInline,]
+    inlines = [ProfileInLine,]
 
 
 admin.site.unregister(User)

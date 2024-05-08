@@ -1,17 +1,9 @@
-from django.views.generic.edit import CreateView, UpdateView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic.edit import UpdateView
+from.models import Profile
 
-from .models import Profile
-from .forms import ProfileForm
+# Create your views here.
 
-class CreateUserProfile(CreateView):
+class UserUpdateView(UpdateView):
     model = Profile
-    form_class = ProfileForm
-    template_name = "registration/create_user.html"
-
-
-class UpdateUserProfile(LoginRequiredMixin, UpdateView):
-    model = Profile
-    form_class = ProfileForm
-    template_name = "registration/update_user.html"
-    redirect_field_name = "/accounts/login"
+    template_name = 'profile.html'
+    context_object_name = 'profile'

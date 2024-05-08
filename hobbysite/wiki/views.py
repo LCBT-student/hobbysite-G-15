@@ -39,12 +39,13 @@ class ArticleDetailView(DetailView):
 
     def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)
-        context['form'] = CommentForm()
+        context['form'] = CommentForm(initial={'author': self.request.user, 'article': self.get_object()})
         return context
     
     def post(self, request,*args,**kwargs):
         form = CommentForm(request.POST)
         if form.is_valid():
+            form.save()
             return self.get(request,*args,**kwargs)
 
         self.object_list = self.get_queryset(**kwargs)
@@ -57,7 +58,7 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
     model = Article
     form_class = ArticleForm
     template_name = 'wiki/article_create.html'
-    redirect_field_name = '/accounts/login'
+    redirect_field_name = 'login'
 
     def get_initial(self):
         initial = super().get_initial()
@@ -76,7 +77,7 @@ class ArticleUpdateView(LoginRequiredMixin, UpdateView):
     model = Article
     form_class = ArticleForm
     template_name = 'wiki/article_update.html'
-    redirect_field_name = '/accounts/login'
+    redirect_field_name = 'login'
 
     def get_form(self, form_class=None):
         form = super().get_form(form_class)

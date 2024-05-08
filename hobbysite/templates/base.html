@@ -1,14 +1,32 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
-<head>
-    <link rel="stylesheet" href="style.css">
-    <title>{% block title %}My amazing site{% endblock %}</title>
-    {% block styles %}{% endblock %}
-</head>
-<body>
-    <div id="content">
-        {% block content %}{% endblock %}
-    </div>
-    {% block scripts %}{% endblock %}
-</body>
+    <head>
+        <link rel="stylesheet" href="{% static 'css/main.css' %}" type="text/css">
+        <title>{% block title %}My amazing site{% endblock %}</title>
+    </head>
+    <header>
+        <h2>{% block pageheading %}{% endblock %}</h2>
+        {% block login %}
+            {% if user.is_authenticated %}
+                <form method="POST" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit">Logout</button>
+                </form>
+            {% else %}
+                <form method="POST" action="{% url 'login' %}">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit">Login</button>
+                </form>
+            {% endif %}
+        {% endblock %}
+    </header>
+    <body>
+        <div id="content">
+            {% block content %}{% endblock %}
+        </div>
+        {% block scripts %}{% endblock %}
+    </body>
 </html>

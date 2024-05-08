@@ -1,8 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
-
-from user_management.models import Profile
+from django.contrib.auth.models import User
 
 
 class ArticleCategory(models.Model):
@@ -26,7 +25,7 @@ class ArticleCategory(models.Model):
 class Article(models.Model):
     title = models.CharField(max_length=255)
     author = models.ForeignKey(
-        Profile,
+        User,
         on_delete=models.SET_NULL,
         null=True,
         related_name='article'
@@ -36,7 +35,6 @@ class Article(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         related_name='article',
-        limit_choices_to={'is_staff': True},
     )
     entry = models.TextField()
     created_on = models.DateTimeField(default=timezone.now)
@@ -45,7 +43,7 @@ class Article(models.Model):
 
     @property
     def article_comments(self):
-        return Comment.objects.filter(article=self)
+        return Comment.objects.filter(article__title=self.title).order_by('-created_on')
 
     def __str__(self):
         return self.title
@@ -63,7 +61,7 @@ class Article(models.Model):
 
 class Comment(models.Model):
     author = models.ForeignKey(
-        Profile,
+        User,
         on_delete=models.SET_NULL,
         null=True,
         related_name='comment'
@@ -74,12 +72,12 @@ class Comment(models.Model):
         related_name='comment'
     )
     entry = models.TextField()
-    created_on = models.DateField(default=timezone.now)
-    updated_on = models.DateField(default=timezone.now)
+    created_on = models.DateTimeField(default=timezone.now)
+    updated_on = models.DateTimeField(default=timezone.now)
 
     def save(self, *args, **kwargs):
         self.updated_on = timezone.now()
         super().save(*args, **kwargs)
 
     class Meta:
-        ordering = ['created_on']
+        ordering = ['-created_on']
