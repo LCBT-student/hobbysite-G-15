@@ -1,21 +1,52 @@
 {% extends 'base.html' %}
-
+{% load static %}
 
 {% block title %}Commissions{% endblock %}
 {% block content %}
   <h1>Commission Details</h1>  
-  <h2>Commission: {{ commissions.title }}</h2>
-  <h4>Description: {{ commissions.description }}<br>
-    People Required: {{ commissions.people_required }}<br>
+
+  {% if request.user.is_authenticated %}
+    <form method="POST" action="{% url 'logout' %}">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Logout</button>
+    </form>
+    {% if user == commissions.author %}
+      <h3>Edit the current Commission?
+      <a href="{% url 'commissions:commission_edit' pk=commissions.pk %}">
+        <button type="submit">Yes</button></a></h3>
+    {% endif %}
+
+  {% else %}
+    <a href="{% url 'login' %}"><button type="submit">Login</button></a>
+  {% endif %}
+
+  <h2>Title: {{ commissions.title }}</h2>
+  <h4>Made by: {{ commissions.author.profile.name }}<br>
+    Description: {{ commissions.description }}<br>
+    Status: {{ commissions.status }}<br>
     Date Created: {{ commissions.created_on }}<br>
     Date Updated:{{ commissions.updated_on }}</h4>
-  <h3>Comments:</h3>
+
+  <h3>Jobs:</h3>
     <ul>
-      {% for comment in commissions.comments.all %}
-        <li>{{ comment.entry }}<br>
-          [Created On: {{ comment.created_on }}]<br>
-          [Updated On: {{ comment.updated_on }}]
-        </li>
+      {% for job in commissions.jobs.all %}
+        <b>Role: {{ job.role }}<br>
+        People Required: {{ job.manpower_required }}<br>
+        Open Slots: {{ job.manpower_required }} <br>
+        Status: {{ job.status }}<br>
+        </b>
+        {% if request.user.is_authenticated %}
+        <h3>Apply Here:
+          <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ apply_form }}
+            <a href="{% url 'commissions:commission_detail' pk=job.pk %}">
+              <button type="submit">Apply to Job</button></a>
+          </form></h3>
+        {% endif %}
+        <br><br>
       {% endfor %}  
     </ul>
+  <a href={% url 'commissions:commission_list' %}><button type="submit">Go Back</button></a>
 {% endblock %}

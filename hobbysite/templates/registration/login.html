@@ -1,0 +1,19 @@
+<html>
+    <body>
+    {% if user.is_authenticated %}
+        You are currently logged in. Logout?
+        <form method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
+    {% else %}
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <a href="{% url 'password_reset' %}">Forgot password?</a><br><br>
+            <button type="submit">Login</button>
+        </form>
+    {% endif %}
+    <a href="javascript:history.back()"><button type="submit">Go Back</button></a>
+    </body>
+</html>

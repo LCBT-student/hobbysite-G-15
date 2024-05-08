@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 from django.urls import reverse
 
 # Create your models here.
@@ -6,9 +7,26 @@ from django.urls import reverse
 class Commission(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
-    people_required = models.PositiveIntegerField()
+    commission_choices = [
+        ('Open','Open'),
+        ('Full','Full'),
+        ('Completed','Completed'),
+        ('Discontinued','Discontinued'),
+    ]
+    status = models.CharField(max_length=255, choices=commission_choices, default='Open')
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
+    author = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='author'
+    )
+    # The project specs did not have Author listed in the Commission model.
+    # However, it is heavily implied to be included because of detail view,
+    # create view, and update view talking about a commission's owner/author.
+    # Most likely, it was just not written in by accident, but I've left this
+    # comment here just in case for clarification.
 
     def __str__(self):
         return self.title
@@ -18,30 +36,62 @@ class Commission(models.Model):
     
 
     class Meta:
-        ordering = ['created_on']
+        ordering = ['-created_on']
         verbose_name = 'commission'
         verbose_name_plural = 'commissions'
 
 
-class Comment(models.Model):
+class Job(models.Model):
     commission = models.ForeignKey(
         Commission,
         on_delete=models.CASCADE,
-        related_name='comments'
+        related_name='jobs'
     )
-    entry = models.TextField()
-    created_on = models.DateTimeField(auto_now_add=True)
-    updated_on = models.DateTimeField(auto_now=True)
+    role = models.CharField(max_length=255)
+    manpower_required = models.PositiveIntegerField()
+    job_choices = [
+        ('Open','Open'),
+        ('Full','Full'),
+    ]
+    status = models.CharField(max_length=255, choices=job_choices, default='Open')
 
     def __str__(self):
-        return '{} {}'.format(Commission.title, self.entry)
+        return '{} {}'.format(Commission.title, self.role)
 
     def get_absolute_url(self):
         return reverse('commission_detail', args=[self.id])
     
     
     class Meta:
-        ordering = ['-created_on']
-        unique_together = ['created_on', 'entry']
-        verbose_name = 'comment'
-        verbose_name_plural = 'comments'
+        ordering = ['role']
+        #unique_together = ['', '']
+        verbose_name = 'job'
+        verbose_name_plural = 'jobs'
+
+
+class JobApplication(models.Model):
+    job = models.ForeignKey(
+        Job,
+        on_delete=models.CASCADE,
+        related_name='jobs'
+    )
+    applicant = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='applicant'
+    )
+    job_apply_choices = [
+        ('Pending','Pending'),
+        ('Accepted','Accepted'),
+        ('Rejected','Rejected')
+    ]
+    status = models.CharField(max_length=255, choices=job_apply_choices, default='Pending')
+    applied_on = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        #ordering = ['']
+        #unique_together = ['', '']
+        verbose_name = 'applicant'
+        verbose_name_plural = 'applicants'
+
