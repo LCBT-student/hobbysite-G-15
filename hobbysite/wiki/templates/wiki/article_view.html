@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <h1>{{ object.title }}</h1>
+    <h3>{{ object.category }}</h3>
+    <h4>Created on {{ object.created_on }}</h4>
+    {% if object.updated_on != object.created_on %}
+        <h4>Updated on {{ object.updated_on }}</h4>
+    {% endif %}
+    {{ object.entry }}
+{% endblock %}

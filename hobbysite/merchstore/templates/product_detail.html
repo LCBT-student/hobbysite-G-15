@@ -1,14 +1,32 @@
 {% extends 'base.html' %}
 
-{% block title %}MerchStore{% endblock %}
 {% block content %}
-    <h1>Product Details</h1>
-    <h2>Product: {{ product_types.Name }}</br>
-    <h4>Product: {{ product_types.description }}</h4>
-        Product Type: {{ product_types.product_type }}
-        
-        {% for product in product_types.products.all %}
-            <li>{{ product.Name }} - {{ product.price }}</li>
-            <li>{{ product.Description }}      
-        {% endfor %}
+    <h1>{{ product.name }} Details</h1>
+    <h3>by {{ product.owner.name }}</h3>
+
+    {% if not request.user.is_authenticated or request.user.profile != product.owner %}
+        <!-- Render transaction form only if user is not the owner -->
+        <form method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="product_id" value="{{ product.pk }}">
+            <label for="amount">Amount:</label>
+            <input type="number" name="amount" min="1" {% if product.stock == 0 %}disabled{% endif %}>
+            {% if product.stock == 0 %}
+                <p>This product is out of stock.</p>
+            {% else %}
+                <button type="submit">Buy</button>
+            {% endif %}
+        </form>
+    {% endif %}
+    {% if request.user.is_authenticated and request.user.profile == product.owner %}
+        <!-- Render edit link for product owner -->
+        <a href="{% url 'merchstore:product_update' pk=product.pk %}">Edit Product</a>
+    {% endif %}
+
+    <ul>
+         Description: {{ product.description }}<br>
+         Status: {{ product.status }}<br>
+         Stock: {{ product.stock }}<br>
+         Product type:{{ product.product_type.name }}</h4>
+    </ul>
 {% endblock %}

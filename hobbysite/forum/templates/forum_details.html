@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %} Forum Details {% endblock %}
+{% block content %}
+    <h1>Forum Thread</h1>
+    <h2>{{ post.title }}</h2>
+    <p>
+        Post Category: {{ post.category.name }} <br/>
+        Category Description: {{ post.category.description }}
+    </p>
+    <p>
+        Created on: {{ post.created_on }} <br/>
+        Updated on: {{ post.updated_on }}
+    </p>
+    <p>
+        <h3>Post Entry</h3>
+        {{ post.entry }}
+    </p>
+    <a href="{{ post.get_root_url }}">Threads List</a>
+{% endblock %}

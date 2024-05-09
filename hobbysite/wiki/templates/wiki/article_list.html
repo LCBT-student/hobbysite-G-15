@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <h1>Wiki Articles</h1>
+    <ul>
+        {% for category in object_list %}
+            <h4>{{ category }}</h4>
+            <p>{{ category.description }}</p>
+            <ul>
+                {% for article in category.articles %}
+                <li><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+    </ul>
+{% endblock %}

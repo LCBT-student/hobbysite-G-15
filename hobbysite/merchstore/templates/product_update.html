@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+    <h1>Update Product</h1>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ fo_rm }}
+        <button type="submit">Submit</button>
+    </form>
+    <p><a href="{% url 'merchstore:product_detail' pk=object.pk %}">Cancel</a></p>
+{% endblock %}
