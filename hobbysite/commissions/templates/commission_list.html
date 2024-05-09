@@ -107,45 +107,51 @@ code and for this I have no excuses.
           {% if commission.status == 'Open' %}
             {% for job in commission.jobs.all %}
               {% for application in job.applications.all %}
-                {% if application.status == 'Pending' %}
-                  <li><a href="{{ commission.get_absolute_url }}">{{ commission.title }}
-                  </a></li>
-                  <ul><li>
-                    Made by: {{ commission.author.profile.name }}
-                    <b>[STATUS: {{ commission.status }}]</b><br>
-                    Date Created: {{ commission.created_on }}<br>
-                    Job Application: {{ application.job.role }}<br>
-                    Applied On: {{ application.applied_on }}<br>
-                    <b>Job Application status: {{ application.status }}</b>
-                  </li></ul>
+                {% if user == application.applicant %}
+                  {% if application.status == 'Pending' %}
+                    <li><a href="{{ commission.get_absolute_url }}">{{ commission.title }}
+                    </a></li>
+                    <ul><li>
+                      Made by: {{ commission.author.profile.name }}
+                      <b>[STATUS: {{ commission.status }}]</b><br>
+                      Date Created: {{ commission.created_on }}<br>
+                      Job Application: {{ application.job.role }}<br>
+                      Applied On: {{ application.applied_on }}<br>
+                      <b>Job Application status: {{ application.status }}</b>
+                    </li></ul>
+                  {% endif %}
                 {% endif %}
               {% endfor %}
               {% for application in job.applications.all %}
-                {% if application.status == 'Accepted' %}
-                  <li><a href="{{ commission.get_absolute_url }}">{{ commission.title }}
-                  </a></li>
-                  <ul><li>
-                    Made by: {{ commission.author.profile.name }}
-                    <b>[STATUS: {{ commission.status }}]</b><br>
-                    Date Created: {{ commission.created_on }}<br>
-                    Job Application: {{ application.job.role }}<br>
-                    Applied On: {{ application.applied_on }}<br>
-                    <b>Job Application status: {{ application.status }}</b>
-                  </li></ul>
+                {% if user == application.applicant %}
+                  {% if application.status == 'Accepted' %}
+                    <li><a href="{{ commission.get_absolute_url }}">{{ commission.title }}
+                    </a></li>
+                    <ul><li>
+                      Made by: {{ commission.author.profile.name }}
+                      <b>[STATUS: {{ commission.status }}]</b><br>
+                      Date Created: {{ commission.created_on }}<br>
+                      Job Application: {{ application.job.role }}<br>
+                      Applied On: {{ application.applied_on }}<br>
+                      <b>Job Application status: {{ application.status }}</b>
+                    </li></ul>
+                  {% endif %}
                 {% endif %}
               {% endfor %}
               {% for application in job.applications.all %}
-                {% if application.status == 'Rejected' %}
-                  <li><a href="{{ commission.get_absolute_url }}">{{ commission.title }}
-                  </a></li>
-                  <ul><li>
-                    Made by: {{ commission.author.profile.name }}
-                    <b>[STATUS: {{ commission.status }}]</b><br>
-                    Date Created: {{ commission.created_on }}<br>
-                    Job Application: {{ application.job.role }}<br>
-                    Applied On: {{ application.applied_on }}<br>
-                    <b>Job Application status: {{ application.status }}</b>
-                  </li></ul>
+                {% if user == application.applicant %}
+                  {% if application.status == 'Rejected' %}
+                    <li><a href="{{ commission.get_absolute_url }}">{{ commission.title }}
+                    </a></li>
+                    <ul><li>
+                      Made by: {{ commission.author.profile.name }}
+                      <b>[STATUS: {{ commission.status }}]</b><br>
+                      Date Created: {{ commission.created_on }}<br>
+                      Job Application: {{ application.job.role }}<br>
+                      Applied On: {{ application.applied_on }}<br>
+                      <b>Job Application status: {{ application.status }}</b>
+                    </li></ul>
+                  {% endif %}
                 {% endif %}
               {% endfor %}
             {% endfor %}
@@ -155,45 +161,51 @@ code and for this I have no excuses.
           {% if commission.status == 'Full' %}
             {% for job in commission.jobs.all %}
               {% for application in job.applications.all %}
-                {% if application.status == 'Pending' %}
-                  <li><a href="{{ commission.get_absolute_url }}">{{ commission.title }}
-                  </a></li>
-                  <ul><li>
-                    Made by: {{ commission.author.profile.name }}
-                    <b>[STATUS: {{ commission.status }}]</b><br>
-                    Date Created: {{ commission.created_on }}<br>
-                    Job Application: {{ application.job.role }}<br>
-                    Applied On: {{ application.applied_on }}<br>
-                    <b>Job Application status: {{ application.status }}</b>
-                  </li></ul>
+                {% if user == application.applicant %}
+                  {% if application.status == 'Pending' %}
+                    <li><a href="{{ commission.get_absolute_url }}">{{ commission.title }}
+                    </a></li>
+                    <ul><li>
+                      Made by: {{ commission.author.profile.name }}
+                      <b>[STATUS: {{ commission.status }}]</b><br>
+                      Date Created: {{ commission.created_on }}<br>
+                      Job Application: {{ application.job.role }}<br>
+                      Applied On: {{ application.applied_on }}<br>
+                      <b>Job Application status: {{ application.status }}</b>
+                    </li></ul>
+                  {% endif %}
                 {% endif %}
               {% endfor %}
               {% for application in job.applications.all %}
-                {% if application.status == 'Accepted' %}
-                  <li><a href="{{ commission.get_absolute_url }}">{{ commission.title }}
-                  </a></li>
-                  <ul><li>
-                    Made by: {{ commission.author.profile.name }}
-                    <b>[STATUS: {{ commission.status }}]</b><br>
-                    Date Created: {{ commission.created_on }}<br>
-                    Job Application: {{ application.job.role }}<br>
-                    Applied On: {{ application.applied_on }}<br>
-                    <b>Job Application status: {{ application.status }}</b>
-                  </li></ul>
+                {% if user == application.applicant %}
+                  {% if application.status == 'Accepted' %}
+                    <li><a href="{{ commission.get_absolute_url }}">{{ commission.title }}
+                    </a></li>
+                    <ul><li>
+                      Made by: {{ commission.author.profile.name }}
+                      <b>[STATUS: {{ commission.status }}]</b><br>
+                      Date Created: {{ commission.created_on }}<br>
+                      Job Application: {{ application.job.role }}<br>
+                      Applied On: {{ application.applied_on }}<br>
+                      <b>Job Application status: {{ application.status }}</b>
+                    </li></ul>
+                  {% endif %}
                 {% endif %}
               {% endfor %}
               {% for application in job.applications.all %}
-                {% if application.status == 'Rejected' %}
-                  <li><a href="{{ commission.get_absolute_url }}">{{ commission.title }}
-                  </a></li>
-                  <ul><li>
-                    Made by: {{ commission.author.profile.name }}
-                    <b>[STATUS: {{ commission.status }}]</b><br>
-                    Date Created: {{ commission.created_on }}<br>
-                    Job Application: {{ application.job.role }}<br>
-                    Applied On: {{ application.applied_on }}<br>
-                    <b>Job Application status: {{ application.status }}</b>
-                  </li></ul>
+                {% if user == application.applicant %}
+                  {% if application.status == 'Rejected' %}
+                    <li><a href="{{ commission.get_absolute_url }}">{{ commission.title }}
+                    </a></li>
+                    <ul><li>
+                      Made by: {{ commission.author.profile.name }}
+                      <b>[STATUS: {{ commission.status }}]</b><br>
+                      Date Created: {{ commission.created_on }}<br>
+                      Job Application: {{ application.job.role }}<br>
+                      Applied On: {{ application.applied_on }}<br>
+                      <b>Job Application status: {{ application.status }}</b>
+                    </li></ul>
+                  {% endif %}
                 {% endif %}
               {% endfor %}
             {% endfor %}
@@ -203,45 +215,51 @@ code and for this I have no excuses.
           {% if commission.status == 'Completed' %}
             {% for job in commission.jobs.all %}
               {% for application in job.applications.all %}
-                {% if application.status == 'Pending' %}
-                  <li><a href="{{ commission.get_absolute_url }}">{{ commission.title }}
-                  </a></li>
-                  <ul><li>
-                    Made by: {{ commission.author.profile.name }}
-                    <b>[STATUS: {{ commission.status }}]</b><br>
-                    Date Created: {{ commission.created_on }}<br>
-                    Job Application: {{ application.job.role }}<br>
-                    Applied On: {{ application.applied_on }}<br>
-                    <b>Job Application status: {{ application.status }}</b>
-                  </li></ul>
+                {% if user == application.applicant %}
+                  {% if application.status == 'Pending' %}
+                    <li><a href="{{ commission.get_absolute_url }}">{{ commission.title }}
+                    </a></li>
+                    <ul><li>
+                      Made by: {{ commission.author.profile.name }}
+                      <b>[STATUS: {{ commission.status }}]</b><br>
+                      Date Created: {{ commission.created_on }}<br>
+                      Job Application: {{ application.job.role }}<br>
+                      Applied On: {{ application.applied_on }}<br>
+                      <b>Job Application status: {{ application.status }}</b>
+                    </li></ul>
+                  {% endif %}
                 {% endif %}
               {% endfor %}
               {% for application in job.applications.all %}
-                {% if application.status == 'Accepted' %}
-                  <li><a href="{{ commission.get_absolute_url }}">{{ commission.title }}
-                  </a></li>
-                  <ul><li>
-                    Made by: {{ commission.author.profile.name }}
-                    <b>[STATUS: {{ commission.status }}]</b><br>
-                    Date Created: {{ commission.created_on }}<br>
-                    Job Application: {{ application.job.role }}<br>
-                    Applied On: {{ application.applied_on }}<br>
-                    <b>Job Application status: {{ application.status }}</b>
-                  </li></ul>
+                {% if user == application.applicant %}
+                  {% if application.status == 'Accepted' %}
+                    <li><a href="{{ commission.get_absolute_url }}">{{ commission.title }}
+                    </a></li>
+                    <ul><li>
+                      Made by: {{ commission.author.profile.name }}
+                      <b>[STATUS: {{ commission.status }}]</b><br>
+                      Date Created: {{ commission.created_on }}<br>
+                      Job Application: {{ application.job.role }}<br>
+                      Applied On: {{ application.applied_on }}<br>
+                      <b>Job Application status: {{ application.status }}</b>
+                    </li></ul>
+                  {% endif %}
                 {% endif %}
               {% endfor %}
               {% for application in job.applications.all %}
-                {% if application.status == 'Rejected' %}
-                  <li><a href="{{ commission.get_absolute_url }}">{{ commission.title }}
-                  </a></li>
-                  <ul><li>
-                    Made by: {{ commission.author.profile.name }}
-                    <b>[STATUS: {{ commission.status }}]</b><br>
-                    Date Created: {{ commission.created_on }}<br>
-                    Job Application: {{ application.job.role }}<br>
-                    Applied On: {{ application.applied_on }}<br>
-                    <b>Job Application status: {{ application.status }}</b>
-                  </li></ul>
+                {% if user == application.applicant %}
+                  {% if application.status == 'Rejected' %}
+                    <li><a href="{{ commission.get_absolute_url }}">{{ commission.title }}
+                    </a></li>
+                    <ul><li>
+                      Made by: {{ commission.author.profile.name }}
+                      <b>[STATUS: {{ commission.status }}]</b><br>
+                      Date Created: {{ commission.created_on }}<br>
+                      Job Application: {{ application.job.role }}<br>
+                      Applied On: {{ application.applied_on }}<br>
+                      <b>Job Application status: {{ application.status }}</b>
+                    </li></ul>
+                  {% endif %}
                 {% endif %}
               {% endfor %}
             {% endfor %}
@@ -251,45 +269,51 @@ code and for this I have no excuses.
           {% if commission.status == 'Discontinued' %}
             {% for job in commission.jobs.all %}
               {% for application in job.applications.all %}
-                {% if application.status == 'Pending' %}
-                  <li><a href="{{ commission.get_absolute_url }}">{{ commission.title }}
-                  </a></li>
-                  <ul><li>
-                    Made by: {{ commission.author.profile.name }}
-                    <b>[STATUS: {{ commission.status }}]</b><br>
-                    Date Created: {{ commission.created_on }}<br>
-                    Job Application: {{ application.job.role }}<br>
-                    Applied On: {{ application.applied_on }}<br>
-                    <b>Job Application status: {{ application.status }}</b>
-                  </li></ul>
+                {% if user == application.applicant %}
+                  {% if application.status == 'Pending' %}
+                    <li><a href="{{ commission.get_absolute_url }}">{{ commission.title }}
+                    </a></li>
+                    <ul><li>
+                      Made by: {{ commission.author.profile.name }}
+                      <b>[STATUS: {{ commission.status }}]</b><br>
+                      Date Created: {{ commission.created_on }}<br>
+                      Job Application: {{ application.job.role }}<br>
+                      Applied On: {{ application.applied_on }}<br>
+                      <b>Job Application status: {{ application.status }}</b>
+                    </li></ul>
+                  {% endif %}
                 {% endif %}
               {% endfor %}
               {% for application in job.applications.all %}
-                {% if application.status == 'Accepted' %}
-                  <li><a href="{{ commission.get_absolute_url }}">{{ commission.title }}
-                  </a></li>
-                  <ul><li>
-                    Made by: {{ commission.author.profile.name }}
-                    <b>[STATUS: {{ commission.status }}]</b><br>
-                    Date Created: {{ commission.created_on }}<br>
-                    Job Application: {{ application.job.role }}<br>
-                    Applied On: {{ application.applied_on }}<br>
-                    <b>Job Application status: {{ application.status }}</b>
-                  </li></ul>
+                {% if user == application.applicant %}
+                  {% if application.status == 'Accepted' %}
+                    <li><a href="{{ commission.get_absolute_url }}">{{ commission.title }}
+                    </a></li>
+                    <ul><li>
+                      Made by: {{ commission.author.profile.name }}
+                      <b>[STATUS: {{ commission.status }}]</b><br>
+                      Date Created: {{ commission.created_on }}<br>
+                      Job Application: {{ application.job.role }}<br>
+                      Applied On: {{ application.applied_on }}<br>
+                      <b>Job Application status: {{ application.status }}</b>
+                    </li></ul>
+                  {% endif %}
                 {% endif %}
               {% endfor %}
               {% for application in job.applications.all %}
-                {% if application.status == 'Rejected' %}
-                  <li><a href="{{ commission.get_absolute_url }}">{{ commission.title }}
-                  </a></li>
-                  <ul><li>
-                    Made by: {{ commission.author.profile.name }}
-                    <b>[STATUS: {{ commission.status }}]</b><br>
-                    Date Created: {{ commission.created_on }}<br>
-                    Job Application: {{ application.job.role }}<br>
-                    Applied On: {{ application.applied_on }}<br>
-                    <b>Job Application status: {{ application.status }}</b>
-                  </li></ul>
+                {% if user == application.applicant %}
+                  {% if application.status == 'Rejected' %}
+                    <li><a href="{{ commission.get_absolute_url }}">{{ commission.title }}
+                    </a></li>
+                    <ul><li>
+                      Made by: {{ commission.author.profile.name }}
+                      <b>[STATUS: {{ commission.status }}]</b><br>
+                      Date Created: {{ commission.created_on }}<br>
+                      Job Application: {{ application.job.role }}<br>
+                      Applied On: {{ application.applied_on }}<br>
+                      <b>Job Application status: {{ application.status }}</b>
+                    </li></ul>
+                  {% endif %}
                 {% endif %}
               {% endfor %}
             {% endfor %}
