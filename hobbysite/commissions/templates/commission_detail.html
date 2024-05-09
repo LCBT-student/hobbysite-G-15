@@ -28,29 +28,28 @@
     Date Created: {{ commissions.created_on }}<br>
     Date Updated:{{ commissions.updated_on }}</h4>
 
-  {% if request.user.is_authenticated %}
-    <h3>Apply Here:
-      <form action="{% url 'commissions:commission_detail' pk=commissions.pk %}" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-          <select id="job" name="job">
-            {% for job in commissions.jobs.all %}
-              {% if job %}
-                <option value="{{ job.pk }}">{{ job.role }}</option>
-              {% endif %}
-            {% endfor %}
-          </select>
-        <input type="submit" value="Apply to Job">
-      </form></h3>
-  {% endif %}
-
   <h3>Jobs:</h3>
     <ul>
       {% for job in commissions.jobs.all %}
         <b>Role: {{ job.role }}<br>
         People Required: {{ job.manpower_required }}<br>
-        Open Slots: {{ job.open_manpower.subtract }} <br>
+        Open Slots: {{ job.open_manpower }} <br>
         Status: {{ job.status }}<br>
-        </b><br><br>
+        </b>
+        {% if request.user.is_authenticated %}
+          {% if job.status != "Complete" %}
+            <h3>Apply Here:
+              <form action="{% url 'commissions:commission_detail' pk=commissions.pk %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                  <select id="job" name="job">
+                  <option value="{{ job.pk }}">{{ job.role }}</option>
+                  </select>
+                <input type="submit" value="Apply to Job">
+              </form>
+            </h3>
+          {% endif %}
+        {% endif %}
+        <br>
       {% endfor %}  
     </ul>
   <a href={% url 'commissions:commission_list' %}><button type="submit">Go Back</button></a>

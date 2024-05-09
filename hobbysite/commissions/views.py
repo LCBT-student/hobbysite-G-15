@@ -37,18 +37,73 @@ class CommissionDetailView(DetailView, FormMixin):
     def post(self, request, *args, **kwargs):
         context = {}
         apply_form = JobApplicationForm()
+        job_form = JobForm()
+        com_form = CommissionForm()
         profile = self.request.user
+
         if request.method == 'POST':
             apply_form = JobApplicationForm(request.POST)
 
             if apply_form.is_valid():
                 application = apply_form.save(commit=False)
                 job = request.POST.get('job')
+                job_form = JobForm(instance=Job.objects.get(pk=job))
+                # Does not need a request.POST since the request is only from
+                # clicking a Apply button that only refers to JobApplication
+                
+                job_manpower = job_form.save(commit=False)
+                job_manpower.open_manpower = job_manpower.manpower_required
+                signees = JobApplication.objects.filter(job=job_manpower).count()
+                manpower_sum = job_manpower.manpower_required - signees
+                if manpower_sum <= 0:
+                    job_manpower.open_manpower = 0
+                    job_manpower.status = "Full"
+                else:
+                    job_manpower.open_manpower = manpower_sum - 1
+                    if job_manpower.open_manpower <= 0:
+                        job_manpower.status = "Full"
+                accepted_signees = JobApplication.objects.filter(job=job_manpower,status="Accepted").count()
+                if accepted_signees >= job_manpower.manpower_required:
+                    job_manpower.status = "Complete"
+                # for the Accepted status check
+                job_manpower.save()
+                # Above is about the job's manpower and status change
+
                 application.job = Job.objects.get(pk=job)
                 application.applicant = profile
                 application.status = "Pending"
+                if accepted_signees >= job_manpower.manpower_required:
+                    application.status = "Rejected"
+                # job only gets set to complete after someone tries to apply
+                # to it once (since it requires someone to post/apply)
+                # this makes the apply button only disappear when someone
+                # tries to apply to a job wherein accepted signees is already
+                # at the same number as manpower_required...
+                # to adapt to this buggy mess, I just made the first to apply
+                # get a rejected status, and the button disappears...
                 application.save()
+                # Above is about the JobApplication itself
+
+                commission_detail = Commission.objects.get(pk=self.kwargs['pk'])
+                com_form = CommissionForm(instance=commission_detail)
+                com_status = com_form.save(commit=False)
+                for x in Job.objects.filter(commission=commission_detail).all():
+                    if x.status != "Full":
+                        com_status.save()
+                        return redirect('commissions:commission_list')
+                com_status.status = "Full"
+                com_status.save()
+                # Above is commission's status update as seen in 
+                # the spec's UpdateView requirement (see the description 
+                # about it in CommissionUpdateView's copy of this code)
+                # *has to go last because of the return redirect
+                # *if it wasnt last, application wouldnt be saved...
+
                 return redirect('commissions:commission_list')
+            else:
+                return redirect('commissions:commission_list')
+                # If there is an error in how it loads, it'll redirect
+                # back to avoid seeing an empty version of the page
         else:
             self.object_list = self.get_queryset(**kwargs)
             context = self.get_context_data(**kwargs)
@@ -57,8 +112,7 @@ class CommissionDetailView(DetailView, FormMixin):
             context['job'] = Job
             context['application'] = JobApplication
             context['open_manpower'] = Job.open_manpower
-            return context
-        return self.render_to_response(context)
+            return self.render_to_response(context)
 
 
 class CommissionCreateView(LoginRequiredMixin, CreateView):
@@ -93,12 +147,17 @@ class CommissionCreateView(LoginRequiredMixin, CreateView):
                 new_com_form.save()
                 new_job_form = first_job_form.save(commit=False)
                 new_job_form.commission = new_com_form
+                new_job_form.open_manpower = new_job_form.manpower_required
                 new_job_form.save()
                 return redirect('/commissions/list')
             # Above is the creation of a commission + a job
             # the [and] statement is to force a user to create a job for the commission
             elif job_form.is_valid():
-                job_form.save()
+                new_job_form = job_form.save(commit=False)
+                new_job_form.open_manpower = (
+                    job_form.cleaned_data.get('manpower_required')
+                )
+                new_job_form.save()
                 return redirect('/commissions/list')
             # Above is only to create a new job
             # *put it in a different <form> in the template to make it work
@@ -139,10 +198,15 @@ class CommissionUpdateView(LoginRequiredMixin, UpdateView):
                 for x in Job.objects.filter(commission=commission_detail).all():
                     if x.status != "Full":
                         new_com_form.save()
-                        return redirect('commissions:commission_detail', pk=commission_detail.pk)
+                        return redirect('commissions:commission_detail', 
+                                        pk=commission_detail.pk)
+                    # Above checks if all jobs from the commission is full
+                    # if atleast one isnt full, it saves and returns early
                 new_com_form.status = "Full"
                 new_com_form.save()
-                return redirect('commissions:commission_detail', pk=commission_detail.pk)
+                return redirect('commissions:commission_detail',
+                                pk=commission_detail.pk)
+                # if all is full and the for loop ends, it sets the status to full then saves
             else:
                 self.object_list = self.get_queryset(**kwargs)
                 context = self.get_context_data(**kwargs)

@@ -49,10 +49,18 @@ class Job(models.Model):
     )
     role = models.CharField(max_length=255)
     manpower_required = models.PositiveIntegerField()
-    open_manpower = models.PositiveIntegerField(default=10)
+    open_manpower = models.IntegerField(default=10)
     job_choices = [
         ('Open','Open'),
         ('Full','Full'),
+        ('Complete','Complete'),
+        # The "Complete" status is set if accepted applicants = manpower_required
+
+        # This is because the specs did not mention whether a job is set to full when
+        # total accepted applicants = manpower_required. This is also based on how
+        # open_manpower does not say whether the signees are accepted. So, I've
+        # assumed that "full" is when a number of signees = manpower_required, while
+        # a new "Complete" is when "accepted signees" = manpower_required.
     ]
     status = models.CharField(max_length=255, choices=job_choices, default='Open')
 
