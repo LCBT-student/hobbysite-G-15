@@ -3,18 +3,33 @@
 <html lang="en">
     <head>
         <link rel="stylesheet" href="{% static 'css/main.css' %}" type="text/css">
-        <title>{% block title %}My amazing site{% endblock %}</title>
+        <title>{% block title %}Our Hobbysite{% endblock %}</title>
     </head>
     <header>
-        <h2>{% block pageheading %}{% endblock %}</h2>
+        <br>
+        <div class="topnav">
+            [Hobbysite-G-15]
+            <a href="{% url 'user_management:homepage' %}">
+                <button type="submit">Home</button></a>
+            <a href="{% url 'merchstore:product_list' %}">
+                <button type="submit">Merchstore</button></a>
+            <a href="{% url 'wiki:article_list_view' %}">
+                <button type="submit">Wiki</button></a>
+            <a href="{% url 'forum:threads' %}">
+                <button type="submit">Forums</button></a>
+            <a href="{% url 'commissions:commission_list' %}">
+                <button type="submit">Commissions</button></a>
+        </div><br>
         {% block login %}
             {% if user.is_authenticated %}
+                You're logged in as {{ user.profile }}. Logout?
                 <form method="POST" action="{% url 'logout' %}">
                     {% csrf_token %}
                     {{ form.as_p }}
                     <button type="submit">Logout</button>
                 </form>
             {% else %}
+                You're logged out. Login?
                 <form method="POST" action="{% url 'login' %}">
                     {% csrf_token %}
                     {{ form.as_p }}
@@ -22,6 +37,8 @@
                 </form>
             {% endif %}
         {% endblock %}
+        <br>
+        <hr>
     </header>
     <body>
         <div id="content">

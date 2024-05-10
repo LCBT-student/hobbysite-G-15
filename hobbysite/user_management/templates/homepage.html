@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Homepage{% endblock %}
+{% block content %}
+    <h1>Welcome to our hobbysite,
+    {% if user.is_authenticated %}
+        {{ user.profile.name }}!
+    {% else %}
+        Stranger!
+    {% endif %}
+    </h1><hr>
+    <h2>Visit our pages down below!</h2>
+    <hr>
+    <h3>Ian's Merchstore:</h3>
+    <a href="{% url 'merchstore:product_list' %}">
+        <button type="submit">Visit</button></a><br>
+    <h3>Lance's Wiki:</h3>
+    <a href="{% url 'wiki:article_list_view' %}">
+        <button type="submit">Visit</button></a><br>
+    <h3>Gian's Forum:</h3>
+    <a href="{% url 'forum:threads' %}">
+        <button type="submit">Visit</button></a><br>
+    <h3>Hans' Commissions:</h3>
+    <a href="{% url 'commissions:commission_list' %}">
+        <button type="submit">Visit</button></a><br><br>
+        <hr><br><br>
+{% endblock %}

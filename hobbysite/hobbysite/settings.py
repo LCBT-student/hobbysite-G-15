@@ -131,7 +131,7 @@ STATICFILES_DIRS = [
 ]
 STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL = '/homepage'
-LOGOUT_REDIRECT_URL = '/profile/login'
+LOGOUT_REDIRECT_URL = '/homepage'
 MEDIA_ROOT = BASE_DIR/'media'
 MEDIA_URL = '/media/'
 
