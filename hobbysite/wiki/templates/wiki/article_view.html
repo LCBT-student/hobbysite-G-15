@@ -1,12 +1,44 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block pageheading%}
+<img src="{{ object.header_image.url }}" alt="">
+<h1>{{ object.title }}</h1>
+<h2>By {{ object.author }}</h2>
+<h3>{{ object.category }}</h3>
+<h4>Created on {{ object.created_on }}</h4>
+{% if object.updated_on != object.created_on %}
+    <h4>Updated on {{ object.updated_on }}</h4>
+{% endif %}
+{% if user == object.author %}
+    <a href="{% url 'wiki:article_update_view' pk=object.pk %}">Edit the article</a>
+{% endif %}
+{% endblock %}
+{% block login %}{% endblock %}
+
 {% block content %}
-    <h1>{{ object.title }}</h1>
-    <h3>{{ object.category }}</h3>
-    <h4>Created on {{ object.created_on }}</h4>
-    {% if object.updated_on != object.created_on %}
-        <h4>Updated on {{ object.updated_on }}</h4>
-    {% endif %}
     {{ object.entry }}
+    <a href="{% url 'wiki:article_list_view' %}"><p>Back to The Article List</p></a>
+    <ul><h5>Others like this</h5>
+    {% for article in object.category.articles %}
+        {% if article != object %}
+        <li><a href='{{ article.get_absolute_url }}'>{{ article.title }}</a></li>
+        {% endif %}
+    {% endfor %}
+    </ul>
+    <ul><h5>Comments</h5>
+    {% if user.is_authenticated %}
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit comment</button>
+    </form>
+    {% endif %}
+    {% for comment in object.article_comments %}
+        <li>
+        Posted by {{ comment.author }} on {{ comment.created_on }}
+        <p>{{ comment.entry }}</p>
+        </li>
+    {% endfor %}
+    </ul>
 {% endblock %}
