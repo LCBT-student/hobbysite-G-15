@@ -1,19 +1,49 @@
 {% extends 'base.html' %}
-{% block title %} Forum Details {% endblock %}
+{% block title %} {{ name }} {% endblock %}
 {% block content %}
-    <h1>Forum Thread</h1>
-    <h2>{{ post.title }}</h2>
-    <p>
-        Post Category: {{ post.category.name }} <br/>
-        Category Description: {{ post.category.description }}
-    </p>
-    <p>
-        Created on: {{ post.created_on }} <br/>
-        Updated on: {{ post.updated_on }}
-    </p>
-    <p>
-        <h3>Post Entry</h3>
-        {{ post.entry }}
-    </p>
-    <a href="{{ post.get_root_url }}">Threads List</a>
+    <h1>Thread: {{ thread.title }}</h1>
+    <h3>Category: {{ thread.category }}</h3>
+    <h3>By {{ thread.author }}</h3>
+
+    <small><a href="{% url 'forum:thread-list' %}">Back to Thread List.</a></small>
+    
+    <br><p>{{ thread.entry }}</p>
+
+    <small>Thread created on: {{ thread.created_on }} | Last updated on: {{ thread.updated_on }}</small>
+    
+    {% if user == thread.author %}
+        <a href="{% url 'forum:thread-edit' pk=view.kwargs.pk %}"><button>Edit your Thread.</button></a>
+    {% endif %}
+
+    <h3>Comments</h3>
+    {% for comment in thread.parent_thread.all %}
+        <h4>{{ comment.author }}</h4>
+        <div><p>{{ comment.entry }}</p></div>
+        <p><small>Comment created on: {{ comment.created_on }} | Last updated on: {{ comment.updated_on }}</small></p>
+    {% empty %}
+        <div>No comments yet.</div>
+    {% endfor %}
+
+    {% if request.user.is_authenticated %}
+    <h3>Post a Comment</h3>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Post</button>
+        </form>
+    {% endif %}
+
+    <br>
+    <div>
+        <h3>Similar Threads in {{ thread.category }}:</h3>
+        <ul>
+            {% for thread in from_category %}
+                {% if thread.pk != object.pk %}
+                    <li><a href="{{ thread.get_absolute_url }}">{{ thread.title }}</a></li> 
+                {% endif %}
+            {% endfor %} 
+        </ul> 
+    </div>
 {% endblock %}
+
+{% block scripts %}{% endblock %}

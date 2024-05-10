@@ -15,7 +15,7 @@
                 <button type="submit">Merchstore</button></a>
             <a href="{% url 'wiki:article_list_view' %}">
                 <button type="submit">Wiki</button></a>
-            <a href="{% url 'forum:threads' %}">
+            <a href="{% url 'forum:thread-list' %}">
                 <button type="submit">Forums</button></a>
             <a href="{% url 'commissions:commission_list' %}">
                 <button type="submit">Commissions</button></a>
@@ -25,14 +25,12 @@
                 You're logged in as {{ user.profile }}. Logout?
                 <form method="POST" action="{% url 'logout' %}">
                     {% csrf_token %}
-                    {{ form.as_p }}
                     <button type="submit">Logout</button>
                 </form>
             {% else %}
                 You're logged out. Login?
                 <form method="POST" action="{% url 'login' %}">
                     {% csrf_token %}
-                    {{ form.as_p }}
                     <button type="submit">Login</button>
                 </form>
             {% endif %}
