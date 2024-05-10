@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <html>
     <body>
     {% if user.is_authenticated %}
@@ -16,18 +15,5 @@
         </form>
     {% endif %}
     <a href="javascript:history.back()"><button type="submit">Go Back</button></a>
-=======
-<!DOCTYPE html>
-<html lang="en">
-    <title>Login</title>
-    <body>
-        <form method="POST">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Login</button>
-        </form>
-        <a href="{% url 'password_reset' %}">Forgot password?</a>
-        <a href="{% url 'user_management:create_user_profile' %}">Create User</a>
->>>>>>> 13409faed6575bd7f2e46678cae18c8e539cefbe
     </body>
 </html>

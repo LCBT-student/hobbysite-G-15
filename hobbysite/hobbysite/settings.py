@@ -46,18 +46,7 @@ INSTALLED_APPS = [
     'merchstore',
     'commissions',
     'forum',
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
     'user_management',  
->>>>>>> origin/merchstore
-=======
-    'user_management'
->>>>>>> commissions
-=======
-    'user_management'
->>>>>>> 13409faed6575bd7f2e46678cae18c8e539cefbe
 ]
 
 MIDDLEWARE = [
@@ -137,14 +126,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATICFILES_DIRS = [
-    BASE_DIR/'static',
-]
-STATIC_URL = '/static/'
-LOGIN_REDIRECT_URL = '/homepage'
-LOGOUT_REDIRECT_URL = 'accounts/login'
-MEDIA_ROOT = BASE_DIR/'media'
-MEDIA_URL = '/media/'
+STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

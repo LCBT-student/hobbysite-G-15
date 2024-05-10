@@ -16,28 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from django.conf import settings
-from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('wiki/', include('wiki.urls', namespace='wiki')),
     path('merchstore/', include('merchstore.urls')),
     path('commissions/', include('commissions.urls', namespace='commissions')),
-<<<<<<< HEAD
     path('forum/', include('forum.urls', namespace="forum")),
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
     path('profile/', include('django.contrib.auth.urls'))
->>>>>>> origin/merchstore
-=======
-    path('forum/', include('forum.urls', namespace='forum')),
-    path('profile/', include('django.contrib.auth.urls'))
->>>>>>> commissions
-=======
-    path('/accounts', include('django.contrib.auth.urls'))
->>>>>>> 13409faed6575bd7f2e46678cae18c8e539cefbe
 ]
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
