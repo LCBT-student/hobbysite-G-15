@@ -25,14 +25,12 @@
                 You're logged in as {{ user.profile }}. Logout?
                 <form method="POST" action="{% url 'logout' %}">
                     {% csrf_token %}
-                    {{ form.as_p }}
                     <button type="submit">Logout</button>
                 </form>
             {% else %}
                 You're logged out. Login?
                 <form method="POST" action="{% url 'login' %}">
                     {% csrf_token %}
-                    {{ form.as_p }}
                     <button type="submit">Login</button>
                 </form>
             {% endif %}
@@ -41,6 +39,7 @@
         <hr>
     </header>
     <body>
+        {% block pageheading %}{% endblock %}
         <div id="content">
             {% block content %}{% endblock %}
         </div>

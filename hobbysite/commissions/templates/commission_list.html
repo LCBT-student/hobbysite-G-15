@@ -10,23 +10,16 @@ code and for this I have no excuses.
 {% block content %}
     <h1>Hans' Commissions</h1>
 
-    <h3>Welcome to my site, 
+    <h3>Welcome to my page, 
       {% if request.user.is_authenticated %}
         {{ user.profile.name }}!<br><br>
-
-        <form method="POST" action="{% url 'logout' %}">
-          {% csrf_token %}
-          {{ form.as_p }}
-          <button type="submit">Logout</button>
-        </form><br>
 
         Add a new Commission/Job?
         <a href="{% url 'commissions:commission_add' %}">
           <button type="submit">Yes</button></a>  
 
       {% else %}
-        Stranger!<br><br>
-        <a href="{% url 'login' %}"><button type="submit">Login</button></a>
+        Stranger!<br>
       {% endif %}</h3>
     <hr>
     {% if request.user.is_authenticated %}

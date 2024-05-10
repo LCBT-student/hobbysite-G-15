@@ -5,35 +5,34 @@
 
     <!-- Link to create a new product -->
     {% if request.user.is_authenticated %}
-        {{ user.profile.name }}!<br><br>
+        Hi {{ user.profile.name }}!<br><br>
         <a href="{% url 'merchstore:product_create' %}">Add New Product</a>
     {% else %}
-        Stranger!<br><br>
-        <a href="{% url 'login' %}"><button type="submit">Login</button></a>
+        Hi Stranger!<br><br>
     {% endif %}
    
     <!-- Display user's products -->
-        <h2>Your Products</h2>
         {% if request.user.is_authenticated %}
+            <h2>Your Products</h2>
             {% for product in products.all %}
                 {% if user == product.owner.user %}
-                    <li><a href="{{ product.get_absolute_url }}">{{ product.name }}</a></li>
+                <ul><li><a href="{{ product.get_absolute_url }}">{{ product.name }}</a></li></ul>
                 {% endif %}
             {% endfor %}
         {% endif %}
     
-    <h2>Products On Sale by User</h2>
-    <ul>
+    
         {% if request.user.is_authenticated %}
+            <h2>Products On Sale by User</h2>
             {% for product in products.all %}
                 {% if product.status == "onsale" %}
                     {% if user == product.owner.user %}
-                    <li><a href="{{ product.get_absolute_url }}">{{ product.name }}</a></li>
+                    <ul><li><a href="{{ product.get_absolute_url }}">{{ product.name }}</a></li></ul>
                     {% endif %}
                 {% endif %}
             {% endfor %}
         {% endif %}
-    </ul>
+
     <!-- Display all products -->
     <h2>All Products</h2>
     <ul>
@@ -42,10 +41,4 @@
         {% endfor %}
     </ul>
 
-    <!-- Logout form -->
-    <form method="POST" action="{% url 'logout' %}">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Logout</button>
-    </form>
 {% endblock %}

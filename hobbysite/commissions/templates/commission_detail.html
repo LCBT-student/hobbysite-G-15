@@ -6,19 +6,11 @@
   <h1>Commission Details</h1>  
 
   {% if request.user.is_authenticated %}
-    <form method="POST" action="{% url 'logout' %}">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit">Logout</button>
-    </form>
     {% if user == commissions.author %}
       <h3>Edit the current Commission?
       <a href="{% url 'commissions:commission_edit' pk=commissions.pk %}">
         <button type="submit">Yes</button></a></h3>
     {% endif %}
-
-  {% else %}
-    <a href="{% url 'login' %}"><button type="submit">Login</button></a>
   {% endif %}
 
   <h2>Title: {{ commissions.title }}</h2>

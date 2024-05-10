@@ -89,7 +89,7 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['fo_rm'] = ProductForm()
+        context['product'] = ProductForm()
         return context
     
     def post(self, request, *args, **kwargs):
@@ -104,7 +104,7 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
         else:
             self.object_list = self.get_queryset(**kwargs)
             context = self.get_context_data(**kwargs)
-            context['fo_rm'] = fo_rm
+            context['product'] = fo_rm
             return self.render_to_response(context)    
 
 class CartView(LoginRequiredMixin, ListView):
