@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en">
+    <title>Create User</title>
+    <body>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Update User</button>
+        </form>
+    </body>
+</html>

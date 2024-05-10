@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 13409faed6575bd7f2e46678cae18c8e539cefbe
 from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -15,6 +18,7 @@ class UpdateUserProfile(LoginRequiredMixin, UpdateView):
     model = Profile
     form_class = ProfileForm
     template_name = "registration/update_user.html"
+<<<<<<< HEAD
     redirect_field_name = "/accounts/login"
 =======
 from django.views.generic.edit import UpdateView
@@ -27,3 +31,6 @@ class UserUpdateView(UpdateView):
     template_name = 'profile.html'
     context_object_name = 'profile'
 >>>>>>> commissions
+=======
+    redirect_field_name = "/accounts/login"
+>>>>>>> 13409faed6575bd7f2e46678cae18c8e539cefbe
