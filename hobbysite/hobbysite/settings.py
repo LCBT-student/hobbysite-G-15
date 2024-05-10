@@ -47,9 +47,13 @@ INSTALLED_APPS = [
     'commissions',
     'forum',
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     'user_management',  
 >>>>>>> origin/merchstore
+=======
+    'user_management'
+>>>>>>> commissions
 ]
 
 MIDDLEWARE = [

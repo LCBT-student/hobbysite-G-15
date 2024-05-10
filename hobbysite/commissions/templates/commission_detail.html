@@ -1,21 +1,56 @@
 {% extends 'base.html' %}
-
+{% load static %}
 
 {% block title %}Commissions{% endblock %}
 {% block content %}
   <h1>Commission Details</h1>  
-  <h2>Commission: {{ commissions.Title }}</h2>
-  <h4>Description: {{ commissions.Description }}<br>
-    People Required: {{ commissions.People_Required }}<br>
-    Date Created: {{ commissions.Created_On }}<br>
-    Date Updated:{{ commissions.Updated_On }}</h4>
-  <h3>Comments:</h3>
+
+  {% if request.user.is_authenticated %}
+    <form method="POST" action="{% url 'logout' %}">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Logout</button>
+    </form>
+    {% if user == commissions.author %}
+      <h3>Edit the current Commission?
+      <a href="{% url 'commissions:commission_edit' pk=commissions.pk %}">
+        <button type="submit">Yes</button></a></h3>
+    {% endif %}
+
+  {% else %}
+    <a href="{% url 'login' %}"><button type="submit">Login</button></a>
+  {% endif %}
+
+  <h2>Title: {{ commissions.title }}</h2>
+  <h4>Made by: {{ commissions.author.profile.name }}<br>
+    Description: {{ commissions.description }}<br>
+    Status: {{ commissions.status }}<br>
+    Date Created: {{ commissions.created_on }}<br>
+    Date Updated:{{ commissions.updated_on }}</h4>
+
+  <h3>Jobs:</h3>
     <ul>
-      {% for comment in commissions.comments.all %}
-        <li>{{ comment.Entry }}<br>
-          [Created On: {{ comment.Created_On }}]<br>
-          [Updated On: {{ comment.Updated_On }}]
-        </li>
+      {% for job in commissions.jobs.all %}
+        <b>Role: {{ job.role }}<br>
+        People Required: {{ job.manpower_required }}<br>
+        Open Slots: {{ job.open_manpower }} <br>
+        Status: {{ job.status }}<br>
+        </b>
+        {% if request.user.is_authenticated %}
+          {% if job.status != "Complete" %}
+            <h3>Apply Here:
+              <form action="{% url 'commissions:commission_detail' pk=commissions.pk %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                  <select id="job" name="job">
+                  <option value="{{ job.pk }}">{{ job.role }}</option>
+                  </select>
+                <input type="submit" value="Apply to Job">
+              </form>
+            </h3>
+          {% endif %}
+        {% endif %}
+        <br>
       {% endfor %}  
     </ul>
+  <a href={% url 'commissions:commission_list' %}><button type="submit">Go Back</button></a>
 {% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Commissions{% endblock %}
+{%block content %}
+    <h1> Creating A New Commission: </h1>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ com_form }}
+        <h2> First Job For This Commission: </h2>
+        <b>*You cannot have an empty commission, there would be no point.*</b><br><br>
+        {{ first_job_form }}
+        <button type="submit">Submit</button>
+    </form>
+    <a href="list">
+        <button type="submit">Cancel</button></a>
+    <br><br><hr>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h1> Creating A New Job For Another Commission: </h1>
+        {{ job_form }}
+        <button type="submit">Submit</button>
+    </form>
+    <a href="list">
+        <button type="submit">Cancel</button></a>
+{% endblock %}
