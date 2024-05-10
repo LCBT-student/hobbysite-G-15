@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{%block content %}
+    <h1> Create New Product </h1>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ fo_rm }}
+        {% comment %} <button>Submit</button> {% endcomment %}
+        <button type="submit">Submit</button>
+    </form>
+{% endblock %}

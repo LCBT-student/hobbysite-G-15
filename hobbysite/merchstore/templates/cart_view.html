@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cart View</title>
+</head>
+<body>
+    <h1>Cart View</h1>
+    {% if grouped_transactions %}
+        {% for owner, transactions in grouped_transactions.items %}
+            <h2>{{ owner }}</h2>
+            <ul>
+                {% for transaction in transactions %}
+                    <li>{{ transaction.product.name }} - {{ transaction.amount }}</li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+    {% else %}
+        <p>No transactions found.</p>
+    {% endif %}
+</body>
+</html>

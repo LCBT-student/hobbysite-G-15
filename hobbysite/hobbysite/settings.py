@@ -46,6 +46,10 @@ INSTALLED_APPS = [
     'merchstore',
     'commissions',
     'forum',
+<<<<<<< HEAD
+=======
+    'user_management',  
+>>>>>>> origin/merchstore
 ]
 
 MIDDLEWARE = [
@@ -75,6 +79,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'hobbysite.wsgi.application'
 

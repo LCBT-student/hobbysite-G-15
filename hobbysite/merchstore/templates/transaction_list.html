@@ -1,0 +1,20 @@
+<!-- transaction_list.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Transaction List View</title>
+</head>
+<body>
+    <h1>Transaction List View</h1>
+    {% for buyer, transactions in grouped_transactions.items %}
+        <h2>{{ buyer }}</h2>
+        <ul>
+            {% for transaction in transactions %}
+                <li>{{ transaction.product.name }} - {{ transaction.amount }}</li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+</body>
+</html>
+
