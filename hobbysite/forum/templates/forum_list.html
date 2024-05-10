@@ -1,14 +1,32 @@
 {% extends 'base.html' %}
-{% block title %} Forum List {% endblock %}
+{% block title %} {{ name }} {% endblock %}
 {% block content %}
-    <h1>Forum Thread List</h1>
-    <ul>
-        {% for post in object_list %}
-        <li>
-            <a href="{{ post.get_absolute_url }}">
-                <b>{{ post.title }}</b>
-            </a>
-        </li>
+    <h2>Threads</h2>
+    {% if request.user.is_authenticated %}
+        <h3>My Threads:</h3>
+            <ul>
+                {% for user_thread in user_created %}
+                    <li><a href="{{ user_thread.get_absolute_url }}">{{ user_thread.title }} in {{ user_thread.category }}</a></li>
+                {% endfor %}
+            </ul>
+        <br>
+        <a href="{% url 'forum:thread-create' %}">Create New Thread.</a>
+    {% endif %}
+
+
+    <h3>All Threads:</h3>
+        {% for category in object_list %}
+            <li>{{ category }}</li>
+            <ul>
+                {% for thread in category.categories.all %}
+                    {% if request.user.is_authenticated %}
+                        {% if thread not in user_created %}
+                            <li><a href="{{ thread.get_absolute_url }}">{{ thread.title }}</a></li>
+                        {% endif %}
+                    {% else %}
+                        <li><a href="{{ thread.get_absolute_url }}">{{ thread.title }}</a></li>
+                    {% endif %}
+                {% endfor %}
+            </ul>   
         {% endfor %}
-    </ul>
 {% endblock %}

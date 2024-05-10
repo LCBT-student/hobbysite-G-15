@@ -1,18 +1,16 @@
 from django.contrib import admin
-from .models import Post, PostCategory
+from .models import Thread, ThreadCategory, Comment
+
+class ThreadInline(admin.TabularInline):
+    model = Thread
+
+class ThreadCategoryAdmin(admin.ModelAdmin):
+    model = ThreadCategory 
+    inlines = [ThreadInline,]
 
 
-class PostCategoryAdmin(admin.ModelAdmin):
-    model = PostCategory
-    
-    search_fields = ["name"]
-    list_display = ["name"]
-    
-    fieldsets = [("Details", {"fields": ("name", "description")})]
-
-
-class PostAdmin(admin.ModelAdmin):
-    model = Post
+class ThreadAdmin(admin.ModelAdmin):
+    model = Thread
 
     search_fields = [
         "title",
@@ -25,6 +23,9 @@ class PostAdmin(admin.ModelAdmin):
 
     fieldsets = [("Details", {"fields": [("title", "entry"), "category"]})]
 
+class CommentInline(admin.TabularInline):
+    model = Comment
 
-admin.site.register(PostCategory, PostCategoryAdmin)
-admin.site.register(Post, PostAdmin)
+
+admin.site.register(ThreadCategory, ThreadCategoryAdmin)
+admin.site.register(Thread, ThreadAdmin)
